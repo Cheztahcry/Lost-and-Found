@@ -1,13 +1,13 @@
 <?php
 session_start();
-include_once 'item_info_class.php';
-$item = new ItemInfo();
-$rows = $item->show_item_info();
+include_once 'rent_info_class.php';
+$rent = new RentInfo();
+$rows = $rent->show_rentinfo();
 $user = false;
 if(isset($_SESSION["user_id"])){
-    include_once  'user_info_class.php';
-    $user_info = new OwnerInfo();
-    $user = $user_info->show_ownerinfo($_SESSION["user_id"]);
+    include_once  'owner_info_class.php';
+    $owner = new OwnerInfo();
+    $user = $owner->show_ownerinfo($_SESSION["user_id"]);
     
 
 
@@ -32,16 +32,16 @@ if(isset($_SESSION["user_id"])){
         <?php if($user):?>
             <span class="user_greet">HELLO, <?= htmlspecialchars($user->fname) ?></span>
             <div class="action-group">
-                <a href="rent_info.php" class="signin-btn">MISSING AN ITEM?</a>
-                <a href="rent_info.php" class="signin-btn">FOUND AN ITEM!</a>
+                <a href="missing_item.php" class="signin-btn">MISSING AN ITEM</a>
+                <a href="found_item.php" class="signin-btn">FOUND AN ITEM</a>
                 <a href="logout.php" class="signin-btn">LOG OUT</a>
             </div>
         <?php else:?>
             <div class="action-group">
-                <a href="rent_info.php" class="signin-btn">MISSING AN ITEM</a>
-                <a href="rent_info.php" class="signin-btn">FOUND AN ITEM</a>
+                <a href="missing_item.php" class="signin-btn">MISSING AN ITEM</a>
+                <a href="found_item.php" class="signin-btn">FOUND AN ITEM</a>
                 <a href="login.php" class="signin-btn">LOG IN</a>
-                <a href="user_info.php" class="signin-btn">REGISTER</a>
+                <a href="owner_info.php" class="signin-btn">REGISTER</a>
             </div>
         <?php endif;?>
     </div>
@@ -53,10 +53,10 @@ if(isset($_SESSION["user_id"])){
         <tr>
             <th>Item ID</th>
             <th>Item Type</th>
-            <th>Item Name</th>
-            <th>Item Image</th>
-            <th>Date</th>
-
+            <th>Item Brand</th>
+            <th>Item Color</th>
+            <th>Item Picture</th>
+            <th>Report Type</th>
 
     </tr>
     <tbody>
@@ -65,11 +65,12 @@ if(isset($_SESSION["user_id"])){
         
                 
                         <tr>
-                        <td><?= $row->item_id ?></td>
-                        <td><?= $row->item_type ?></td>
-                        <td><?= $row->item_name ?></td>
-                        <td><?= $row->item_img ?></td>
-                        <td><?= $row->date ?></td>
+                        <td><?= $row->id ?></td>
+                        <td><?= $row->blocknumber ?></td>
+                        <td><?= $row->lotnumber ?></td>
+                        <td><?= $row->rentprice ?></td>
+                        <td><?= $row->downpayment?></td>
+                        <td>Missing</td>
                         </tr>
                 
         <?php endforeach; ?>
@@ -80,7 +81,7 @@ if(isset($_SESSION["user_id"])){
 </body>
 </div>
  <footer>
-        <p>© 2026 LNF by C.J.C. All rights reserved.</p>
+        <p>© 2026 RHS by C.J.C. All rights reserved.</p>
     </footer>
 </body>
 </html>

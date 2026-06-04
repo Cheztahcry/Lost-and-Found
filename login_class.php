@@ -40,7 +40,6 @@
 
     $email = trim(($_POST['email'] ?? null));
     $password = trim(($_POST['password'] ?? null));
-    $remember = ($_POST['remember'] ?? null);
     $credentials_info = [ 
                 "email" => $email,
                 "password" => $password
