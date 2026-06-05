@@ -1,8 +1,8 @@
 <?php
 session_start();
-include_once 'rent_info_class.php';
-$rent = new RentInfo();
-$rows = $rent->show_rentinfo();
+include_once 'item_class.php';
+$rent = new ItemInfo();
+$rows = $rent->show_item_info();
 $user = false;
 if(isset($_SESSION["user_id"])){
     include_once  'owner_info_class.php';
@@ -32,14 +32,12 @@ if(isset($_SESSION["user_id"])){
         <?php if($user):?>
             <span class="user_greet">HELLO, <?= htmlspecialchars($user->fname) ?></span>
             <div class="action-group">
-                <a href="missing_item.php" class="signin-btn">MISSING AN ITEM</a>
-                <a href="found_item.php" class="signin-btn">FOUND AN ITEM</a>
+                <a href="item.php" class="signin-btn">FILE A REPORT</a>
                 <a href="logout.php" class="signin-btn">LOG OUT</a>
             </div>
         <?php else:?>
             <div class="action-group">
-                <a href="missing_item.php" class="signin-btn">MISSING AN ITEM</a>
-                <a href="found_item.php" class="signin-btn">FOUND AN ITEM</a>
+                <a href="item.php" class="signin-btn">FILE A REPORT</a>
                 <a href="login.php" class="signin-btn">LOG IN</a>
                 <a href="owner_info.php" class="signin-btn">REGISTER</a>
             </div>
