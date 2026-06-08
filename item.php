@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Missing Item Information</title>
+    <title>Item Report Information</title>
     <link rel="stylesheet" href="css/rent_info_style.css">
 </head>
 <body>
@@ -15,9 +15,9 @@
                 </nav>
             </div>
 
-            <h1>Missing Item Information</h1>
+            <h1>Item Report Information</h1>
             
-            <form action="rent_info_class.php" method="post" id="rent-form">
+            <form action="item_class.php" method="post" id="item-form">
                 <div class="field-group">
                     <label for="item_type_label">Item Type</label>
                     <div class="field-row">
@@ -42,15 +42,15 @@
                 <div class="field-group">
                     <label for="item_color_label">Report Type</label>
                     <div class="field-row">
-                        <input type="radio" name="item_color" id="item_color" required>Missing
-                        <input type="radio" name="item_color" id="item_color" required>Found
+                        <input type="radio" name="report_type" id="missing" value = "Missing" required>Missing
+                        <input type="radio" name="report_type" id="found" value = "Found" required>Found
                     </div>
                 </div>
 
                 <div class="field-group">
                     <label for="item_color_label">Date</label>
                     <div class="field-row">
-                        <input type="date" name="item_color" id="item_color" required>
+                        <input type="date" name="item_date" id="item_date" required>
                     </div>
                 </div>
 

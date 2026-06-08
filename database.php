@@ -1,5 +1,5 @@
 <?php
-    $tb_name = "tbl_rentinfo";
+    $tb_name = "tbl_iteminfo";
     $conn = "";
     $config = require 'config.php';
 

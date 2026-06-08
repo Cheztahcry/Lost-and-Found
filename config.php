@@ -1,8 +1,8 @@
 <?php return [
     'host' => 'localhost',
-    'db'   => 'dbhouserent',
+    'db'   => 'dblostandfound',
     'user' => 'root',
     'password' => '',
-    'dbname' => 'dbhouserent'
+    'dbname' => 'dblostandfound'
 ];
 ?>
