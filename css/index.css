@@ -1,44 +1,70 @@
-body {
-    background-image: url("../assets/img/bg_pic.jpg");
-    background-position: center;
-    background-size:cover;
-    background-attachment:fixed;
-    font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    margin:  auto;
-    padding:  auto;
-   
+:root {
+    --bg: #FAFAFA;
+    --surface: #EBF5E9;
+    --surface-soft: #F6F7F3;
+    --primary: #00796B;
+    --primary-soft: #D2E6E1;
+    --accent: #FF7043;
+    --text: #1A237E;
+    --muted: #4F5D6A;
+    --border: rgba(125, 170, 158, 0.32);
+    --shadow: rgba(17, 44, 60, 0.08);
 }
-.dashboard-container { 
-    border: 25px solid #939461; 
-    margin: 50px;
-    height: auto;
-    padding: 5px;
-    background-color: #e7ecc795; 
-    border-radius: 8px;
-    backdrop-filter: blur(4px);
+
+body {
+    background-color: var(--bg);
+    /* Changed the heavy white overlay to a transparent version of your beige color */
+    background-image: linear-gradient(rgba(236, 226, 198, 0.9), rgba(236, 226, 198, 0.4)), url("../assets/img/lostnfound.png");
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    color: var(--text);
+}
+.dashboard-container {
+    border: 2px solid var(--border);
+    margin: 40px auto 80px;
+    max-width: 1200px;
+    padding: 24px;
+    background-color: rgba(235, 245, 233, 0.95);
+    border-radius: 28px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 20px 60px var(--shadow);
 }
 table {
-    width: 70%;
-    border-collapse:collapse;
-    font-size: 16px;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.95rem;
 }
 th, td {
     text-align: left;
-    padding: 12px;
-    border-bottom: 1px solid #b4aa6bcc;
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--border);
     vertical-align: middle;
 }
 th {
-    background-color: #f4f4f4;
-    font-weight: 600;
-    width: 100%;
+    background: rgba(250, 250, 250, 0.92);
+    color: var(--primary);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 0.82rem;
+}
+tbody tr {
+    background: #ffffff;
+}
+tbody tr:nth-child(even) {
+    background: rgba(250, 250, 250, 0.9);
 }
 .action-cell {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 10px;
+    align-items: center;
 }
 .action-btn {
     display: inline-flex;
@@ -46,11 +72,11 @@ th {
     justify-content: center;
     gap: 8px;
     min-width: 120px;
-    padding: 10px 14px;
+    padding: 10px 16px;
     border: 1px solid transparent;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.96);
-    color: #20302a;
+    background: #ffffff;
+    color: var(--text);
     font-weight: 700;
     font-size: 0.9rem;
     cursor: pointer;
@@ -58,43 +84,51 @@ th {
 }
 .action-btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 18px 32px rgba(15, 25, 65, 0.08);
+    box-shadow: 0 16px 26px var(--shadow);
 }
 .inquire-btn {
-    background: #f9f7ed;
-    border-color: rgba(143, 168, 130, 0.18);
+    background: var(--surface-soft);
+    color: var(--primary);
+    border-color: rgba(0, 121, 107, 0.16);
 }
 .contact-btn {
-    background: #e0e7dc;
-    border-color: rgba(15, 25, 65, 0.12);
+    background: var(--primary);
+    color: #ffffff;
+    border-color: rgba(0, 121, 107, 0.24);
 }
 .bookmark-btn {
     background: #ffffff;
-    color: #8b3d45;
-    border-color: rgba(139, 61, 69, 0.18);
+    color: var(--accent);
+    border-color: rgba(255, 112, 67, 0.22);
 }
 .bookmark-btn:hover {
-    background: #fdf0f2;
+    background: rgba(255, 112, 67, 0.08);
+}
+.bookmark-btn.active {
+    color: #ffffff;
+    background: var(--accent);
+    border-color: rgba(255, 112, 67, 0.4);
 }
 .bookmark-btn .btn-icon {
     font-size: 1rem;
     line-height: 1;
-    color: #d84457;
+    color: inherit;
 }
 
 header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 30px;
-    background: #ced28ca7;
-    color: #0f1941;
+    padding: 18px 32px;
+    background: rgba(250, 250, 250, 0.96);
+    color: var(--text);
     gap: 24px;
-    backdrop-filter: blur(4px);
+    border-bottom: 1px solid rgba(125, 170, 158, 0.2);
+    backdrop-filter: blur(6px);
 }
 header, footer {
-    background: #ced28ca7;
-    color: #14180a;
+    background: rgba(250, 250, 250, 0.96);
+    color: var(--text);
 }
 .options {
     display: flex;
@@ -112,8 +146,8 @@ header, footer {
     padding: 0 24px;
     border: none;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.92);
-    color: #0f1941;
+    background: rgba(255, 255, 255, 0.98);
+    color: var(--text);
     font-size: 0.95rem;
     font-weight: 700;
     cursor: pointer;
@@ -121,24 +155,23 @@ header, footer {
 }
 .option-btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 14px 28px rgba(15, 25, 65, 0.12);
-    background: #fff;
+    box-shadow: 0 14px 28px var(--shadow);
+    background: #ffffff;
 }
 .search-btn {
-    background: #cfd28cc4;
+    background: var(--accent);
     color: #ffffff;
 }
 .option-btn.search-btn:hover,
 .search-btn:hover {
-    background: #cfd28c;
+    background: #ff8b6a;
     color: #ffffff;
-    box-shadow: 0 14px 28px rgba(15, 25, 65, 0.12);
 }
 .filter-btn {
     position: relative;
-    background: #cfd28cc4;
-    color: #9fa273;
-    border: 1px solid rgba(143, 168, 130, 0.16);
+    background: var(--primary);
+    color: #ffffff;
+    border: 1px solid rgba(0, 121, 107, 0.18);
     padding-right: 38px;
 }
 
@@ -275,10 +308,10 @@ footer {
     align-items: center;
     gap: 10px;
     padding: 10px 14px;
-    background: rgba(255, 255, 255, 0.94);
-    border: 1px solid rgba(143, 168, 130, 0.18);
+    background: var(--surface);
+    border: 1px solid rgba(0, 121, 107, 0.18);
     border-radius: 999px;
-    box-shadow: 0 16px 32px rgba(15, 25, 65, 0.08);
+    box-shadow: 0 16px 32px var(--shadow);
 }
 
 .status-option {
@@ -289,9 +322,9 @@ footer {
     min-width: 92px;
     padding: 12px 22px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgba(15, 25, 65, 0.12);
-    color: #2f4330;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(0, 121, 107, 0.14);
+    color: var(--muted);
     font-weight: 700;
     cursor: pointer;
     transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
@@ -303,22 +336,21 @@ footer {
 }
 
 .status-option:hover {
-    background: rgba(143, 168, 130, 0.12);
+    background: var(--surface-soft);
 }
 
 .status-option.active,
 .status-option input:checked + span {
-    background: #686b40a7;
-    color: #1f3115;
-    box-shadow: 0 14px 28px rgba(143, 168, 130, 0.18);
-    border-color: rgba(143, 168, 130, 0.24);
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 14px 28px rgba(0, 121, 107, 0.18);
+    border-color: rgba(0, 121, 107, 0.28);
 }
 
-.status-option input:checked + span {
-    background: rgba(143, 168, 130, 0.18);
-    color: #1f3115;
-    box-shadow: 0 14px 28px rgba(143, 168, 130, 0.18);
-    border-color: rgba(143, 168, 130, 0.24);
+.status-option span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .status-option span {

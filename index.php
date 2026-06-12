@@ -138,10 +138,8 @@ if(isset($_SESSION["user_id"])){
                 <?php endif; ?>
         </tbody>
         </table>
-        
-</body>
-</div>
- <footer>
+    </div>
+    <footer>
         <p>© 2026 LNF by C.J.C. All rights reserved.</p>
     </footer>
     <script src="js/index.js" defer></script>

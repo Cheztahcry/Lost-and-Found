@@ -3,8 +3,9 @@
 }
 
 body {
-
-    background-image: url("../assets/img/bg_pic.jpg"); 
+    background-color: var(--bg);
+    /* Added the soft, transparent beige overlay to make the lostnfound.png image blend perfectly */
+    background-image: linear-gradient(rgba(236, 226, 198, 0.9), rgba(236, 226, 198, 0.4)), url("../assets/img/lostnfound.png"); 
     background-position: center;
     background-size: cover;
     background-attachment: fixed; 

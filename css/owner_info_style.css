@@ -2,16 +2,30 @@
     box-sizing: border-box;
 }
 
-body {
+:root {
+    --bg: #FAFAFA;
+    --surface: #EBF5E9;
+    --surface-soft: #F6F7F3;
+    --primary: #00796B;
+    --primary-soft: #D2E6E1;
+    --accent: #FF7043;
+    --text: #1A237E;
+    --muted: #4F5D6A;
+    --border: rgba(125, 170, 158, 0.32);
+    --shadow: rgba(17, 44, 60, 0.08);
+}
 
-    background-image: url("../assets/img/bg_pic.jpg"); 
+body {
+    background-color: var(--bg);
+    /* Softened the overlay to let the lostnfound.png image and background color blend clearly */
+    background-image: linear-gradient(rgba(236, 226, 198, 0.9), rgba(236, 226, 198, 0.4)), url("../assets/img/lostnfound.png");
     background-position: center;
     background-size: cover;
-    background-attachment: fixed; 
+    background-attachment: fixed;
     font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
-    backdrop-filter: blur(4px);
+    color: var(--text);
 }
 .student.form {
     display: flex;
@@ -21,12 +35,11 @@ body {
 
 .container {
     width: min(980px, 100%);
-    background: #ced28ca7;
-    border-radius: 24px;
-    box-shadow: 0 24px 60px rgba(28, 42, 84, 0.12);
+    background: rgba(235, 245, 233, 0.95);
+    border-radius: 28px;
+    box-shadow: 0 20px 60px var(--shadow);
     padding: 36px 40px;
-    backdrop-filter: blur(4px);
-    
+    border: 2px solid var(--border);
 }
 
 .container > .container {
@@ -34,7 +47,7 @@ body {
     box-shadow: none;
     padding: 0;
     margin-top: 32px;
-    backdrop-filter: blur(4px);
+    border: none;
 }
 
 .page-header {
@@ -53,43 +66,52 @@ body {
 .page-nav .nav-link {
     padding: 12px 18px;
     border-radius: 9999px;
-    background: #eef1ff;
-    color:  rgba(70, 75, 42, 0.784);
+    background: rgba(250, 250, 250, 0.92);
+    color: var(--primary);
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
     transition: transform 0.18s ease, background-color 0.18s ease;
 }
 
 .page-nav .nav-link:hover {
     transform: translateY(-1px);
-    background: #dde4ff;
-    
+    background: var(--primary-soft);
 }
 
 .container h1 {
     margin: 0 0 24px;
     font-size: clamp(1.7rem, 1.9vw, 2.3rem);
     letter-spacing: -0.02em;
-    color: #0f1941;
-
+    color: var(--text);
 }
 
 .field-group {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
+    background: #ffffff;
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 18px 22px;
+    transition: all 0.2s ease;
+}
+
+.field-group:hover {
+    border-color: rgba(0, 121, 107, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 121, 107, 0.08);
 }
 
 .field-group label {
     display: block;
-    margin-bottom: 10px;
-    font-weight: 600;
-    font-size: 0.98rem;
-    color: #2d3a67;
+    margin-bottom: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text);
+    letter-spacing: -0.01em;
 }
 
 .field-row {
     display: grid;
-    gap: 16px;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
 }
 
 .field-row input[type="text"],
@@ -98,14 +120,14 @@ body {
 .field-row input[type="email"],
 .field-row input[type="password"] {
     width: 100%;
-    min-height: 52px;
-    padding: 14px 16px;
-    border: 1px solid #d9dbe9;
-    border-radius: 14px;
-    background: #f8f9ff;
-    color: #1d2438;
-    font-size: 1rem;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    min-height: 48px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: #ffffff;
+    color: var(--text);
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
 }
 
 .field-row input[type="text"]:focus,
@@ -114,9 +136,9 @@ body {
 .field-row input[type="email"]:focus,
 .field-row input[type="password"]:focus {
     outline: none;
-    border-color: #5060f2;
-    box-shadow: 0 0 0 4px rgba(80, 96, 242, 0.12);
-    background: #fff;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 121, 107, 0.1);
+    background: #fafafa;
 }
 
 .checkbox-label {
@@ -124,8 +146,8 @@ body {
     align-items: center;
     gap: 8px;
     margin-top: 4px;
-    font-weight: 500;
-    color: #2a3560;
+    font-weight: 600;
+    color: var(--text);
     cursor: pointer;
 }
 
@@ -133,13 +155,13 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-weight: 500;
-    color: #2a3560;
+    font-weight: 600;
+    color: var(--text);
 }
 
 .field-group input[type="radio"],
 .field-group input[type="checkbox"] {
-    accent-color: #5060f2;
+    accent-color: var(--primary);
 }
 
 .button-row {
@@ -152,34 +174,38 @@ body {
 }
 
 button {
-    min-width: 160px;
-    padding: 14px 22px;
+    min-width: 140px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 14px;
-    font-size: 1rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+    transition: all 0.18s ease;
+    letter-spacing: -0.01em;
 }
 
 button#submit {
-    background: rgba(62, 60, 43, 0.688);
+    background: var(--primary);
     color: #ffffff;
-    box-shadow: 0 16px 28px rgba(80, 96, 242, 0.18);
+    box-shadow: 0 8px 20px rgba(0, 121, 107, 0.16);
 }
 
 button#submit:hover {
-    transform: translateY(-1px);
-    background: #484e26;
+    transform: translateY(-2px);
+    background: #005b50;
+    box-shadow: 0 12px 28px rgba(0, 121, 107, 0.22);
 }
 
 button#clear {
-    background: #f4f5ff;
-    color: #38416f;
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
 }
 
 button#clear:hover {
-    transform: translateY(-1px);
-    background: #e5e7ff;
+    transform: translateY(-2px);
+    background: rgba(0, 121, 107, 0.05);
 }
 
 @media (max-width: 720px) {

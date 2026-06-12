@@ -2,116 +2,52 @@
     box-sizing: border-box;
 }
 
+:root {
+    --bg: #FAFAFA;
+    --surface: #EBF5E9;
+    --surface-soft: #F6F7F3;
+    --primary: #00796B;
+    --primary-soft: #D2E6E1;
+    --accent: #FF7043;
+    --text: #1A237E;
+    --muted: #4F5D6A;
+    --border: rgba(125, 170, 158, 0.32);
+    --shadow: rgba(17, 44, 60, 0.08);
+}
+
 body {
     margin: 0;
     font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-image: url("../assets/img/bg_pic.jpg");
+    
+    /* 1. Keep your base background color */
+    background-color: #ECE2C6;
+    
+    /* 2. Change the gradient to a light, transparent overlay (opacity 0.4 means 40%) */
+    background-image: linear-gradient(rgba(236, 226, 198, 0.9), rgba(236, 226, 198, 0.4)), 
+                      url("../assets/img/lostnfound.png");
+    
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
-    color: #333;
+    color: var(--text);
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(4px);
 }
 
 .login-page {
     width: 100%;
-    max-width: 420px;
+    max-width: 460px;
     padding: 24px;
 }
 
 .login-card {
-    background: #ced28ca7;
-    border-radius: 18px;
-    padding: 32px;
-    box-shadow: 0 24px 60px rgba(28, 42, 84, 0.12);
-    backdrop-filter: blur(4px);
-}
-
-.login-header h1 {
-    margin: 0 0 10px;
-    font-size: 32px;
-    letter-spacing: -0.04em;
-    color: #0f1941;
-}
-
-.login-header p {
-    margin: 0 0 24px;
-    color: #2d3a67;
-    line-height: 1.5;
-}
-
-.field-group {
-    margin-bottom: 20px;
-}
-
-.field-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #2d3a67;
-}
-
-.field-row input {
-    width: 100%;
-    padding: 14px 16px;
-    border: 1px solid #d9dbe9;
-    border-radius: 12px;
-    background: #f8f9ff;
-    font-size: 15px;
-    color: #1d2438;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.field-row input:focus {
-    outline: none;
-    border-color: #5060f2;
-    box-shadow: 0 0 0 4px rgba(80, 96, 242, 0.12);
-    background: #fff;
-}
-
-.button-row {
-    margin-top: 10px;
-}
-
-.button-row button {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 12px;
-    background: rgba(62, 60, 43, 0.688);
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.2s ease, transform 0.18s ease;
-    box-shadow: 0 16px 28px rgba(80, 96, 242, 0.18);
-}
-
-.button-row button:hover {
-    background: #484e26;
-    transform: translateY(-1px);
-}
-
-.register-link,
-.forgot-password {
-    margin-top: 16px;
-    text-align: center;
-}
-
-.register-link a,
-.forgot-password a {
-    color: #5060f2;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-.register-link a:hover,
-.forgot-password a:hover {
-    text-decoration: underline;
+    background: rgba(235, 245, 233, 0.95);
+    border: 2px solid var(--border);
+    border-radius: 28px;
+    padding: 36px;
+    box-shadow: 0 20px 60px var(--shadow);
 }
 
 .page-header {
@@ -128,20 +64,103 @@ body {
 .page-nav .nav-link {
     padding: 10px 16px;
     border-radius: 9999px;
-    background: #eef1ff;
-    color: #2f4a8b;
+    background: rgba(250, 250, 250, 0.92);
+    color: var(--primary);
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
     transition: transform 0.18s ease, background-color 0.18s ease;
 }
 
 .page-nav .nav-link:hover {
     transform: translateY(-1px);
-    background: #dde4ff;
+    background: var(--primary-soft);
+}
+
+.login-header h1 {
+    margin: 0 0 10px;
+    font-size: 34px;
+    letter-spacing: -0.04em;
+    color: var(--text);
+}
+
+.login-header p {
+    margin: 0 0 24px;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.field-group {
+    margin-bottom: 20px;
+}
+
+.field-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.field-row input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid rgba(125, 170, 158, 0.35);
+    border-radius: 14px;
+    background: #ffffff;
+    font-size: 15px;
+    color: var(--text);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field-row input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(0, 121, 107, 0.12);
+    background: #ffffff;
+}
+
+.button-row {
+    margin-top: 10px;
+}
+
+.button-row button {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    background: var(--primary);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.18s ease;
+    box-shadow: 0 16px 28px rgba(0, 121, 107, 0.18);
+}
+
+.button-row button:hover {
+    background: #005b50;
+    transform: translateY(-1px);
+}
+
+.register-link,
+.forgot-password {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.register-link a,
+.forgot-password a {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.register-link a:hover,
+.forgot-password a:hover {
+    text-decoration: underline;
 }
 
 @media (max-width: 520px) {
     .login-card {
-        padding: 24px;
+        padding: 28px;
     }
 }
