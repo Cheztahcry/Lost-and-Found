@@ -36,7 +36,14 @@ if(isset($_SESSION["user_id"])){
     </div>
     <div class="header-links">
         <?php if($user):?>
-            <span class="user_greet">HELLO, <?= htmlspecialchars($user->fname) ?></span>
+            <a href="owner_dashboard.php" class="user_greet">
+                <?php if(!empty($user->picture)): ?>
+                    <img src="assets/img/uploads/<?= htmlspecialchars($user->picture) ?>" alt="Profile" class="user-avatar" style="width:30px;height:30px;border-radius:50%;object-fit:cover;">
+                <?php else: ?>
+                    <span class="user-icon" aria-hidden="true">👤</span>
+                <?php endif; ?>
+                <span>Hello, <?= htmlspecialchars($user->fname) ?>!</span>
+            </a>
             <div class="action-group">
                 <a href="item.php" class="signin-btn">FILE A REPORT</a>
                 <a href="logout.php" class="signin-btn">LOG OUT</a>
@@ -68,17 +75,27 @@ if(isset($_SESSION["user_id"])){
         </div>
         <button type="button" class="option-btn search-btn">Search</button>
         <button type="button" class="option-btn filter-btn">Filter</button>
-        <div class="filter-group">
-            <label class="visually-hidden" for="sort_by">Sort by</label>
-            <select name="sort_by" id="sort_by" class="filter-select">
-                <option value="block">Item Type</option>
-                <option value="lot">Brand</option>
-            </select>
-            <label class="visually-hidden" for="sort_order">Sort order</label>
-            <select name="sort_order" id="sort_order" class="filter-select">
-                <option value="asc">Ascending</option>
-                <option value="desc">Descending</option>
-            </select>
+        <div class="filter-group hidden">
+                <div class="filter-header">
+                    <span>Sort &amp; filter</span>
+                </div>
+                <div class="filter-controls">
+                    <div class="filter-control">
+                        <label class="visually-hidden" for="sort_by">Sort by</label>
+                        <select name="sort_by" id="sort_by" class="filter-select">
+                            <option value="block">Item Type</option>
+                            <option value="lot">Brand</option>
+                        </select>
+                    </div>
+                    <div class="filter-control">
+                        <label class="visually-hidden" for="sort_order">Sort order</label>
+                        <select name="sort_order" id="sort_order" class="filter-select">
+                            <option value="asc">Ascending</option>
+                            <option value="desc">Descending</option>
+                        </select>
+                    </div>
+
+                </div>           
         </div>
     </div>
     <div id = "search-results">
