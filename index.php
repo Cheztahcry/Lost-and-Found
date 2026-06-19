@@ -66,11 +66,11 @@ try {
     <div class = "options">
         <div class="status-toggle">
             <label class="status-option">
-                <input type="radio" name="property_status" id= "sale-radio" value="sale">
+                <input type="radio" name="report_status" id= "missing-radio" value="missing">
                 <span>Missing</span>
             </label>
             <label class="status-option">
-                <input type="radio" name="property_status" id= "rent-radio" value="rent">
+                <input type="radio" name="report_status" id= "found-radio" value="found">
                 <span>Found</span>
             </label>
         </div>
@@ -79,7 +79,7 @@ try {
             <span class="search-icon" aria-hidden="true"></span>
             <input type="text" name="search_bar" id="search_bar" class="search-input" placeholder="Search by type, brand or ID...">
         </div>
-        <button type="button" class="option-btn search-btn">Search</button>
+        <button type="button" class="option-btn search-btn" id = "search-button">Search</button>
         <button type="button" class="option-btn filter-btn">Filter</button>
         <div class="filter-group hidden">
                 <div class="filter-header">
@@ -119,6 +119,7 @@ try {
                 <th>Item Color</th>
                 <th>Item Image </th>
                 <th>Report Type</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -131,9 +132,12 @@ try {
                     <td><?= htmlspecialchars($row->item_color) ?></td>
                     <td><?= htmlspecialchars($row->item_image) ?></td>
                     <td><?= htmlspecialchars($row->report_type) ?></td>
+                    <td><button type="button" class="action-btn contact-btn">Contact</button>
+                    <button type="button" class="action-btn contact-btn">File a missing report</button></td>
+    
+                    
                 </tr>
-                        <button type="button" class="action-btn contact-btn">Contact</button>
-                    </td>
+                    
                 </tr>
                 <?php endforeach; ?>
                 <?php else: ?>
@@ -147,11 +151,52 @@ try {
                 </tbody>
                 </table>
         </div>
+    </div>
+        <div class = "found-dashboard" id = "found-dashboard">
+            <div class = "dashboard-container">
         
+                <table>
+                <thead>
+                <tr>
+                    <th>Item ID</th>
+                    <th>Item Type</th>
+                    <th>Item Brand</th>
+                    <th>Item Color</th>
+                    <th>Item Image </th>
+                    <th>Report Type</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <?php if ($found_row && count($found_row) > 0): ?>
+                    <?php foreach ($found_row as $row): ?>            
+                    <tr>
+                        <td><?= htmlspecialchars($row->id) ?></td>
+                        <td><?= htmlspecialchars($row->item_type) ?></td>
+                        <td><?= htmlspecialchars($row->item_brand) ?></td>
+                        <td><?= htmlspecialchars($row->item_color) ?></td>
+                        <td><?= htmlspecialchars($row->item_image) ?></td>
+                        <td><?= htmlspecialchars($row->report_type) ?></td>
+                        <td><button type="button" class="action-btn contact-btn">Contact</button>
+                        <button type="button" class="action-btn contact-btn">File a found report</button></td>
+                        
+                    </tr>
+                        
+                    </tr>
+                    <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 20px; color: #666;">
+                                <strong>No properties are currently available.</strong><br>
+                                Please try refreshing the page or check back later.
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    </tbody>
+                    </table>
+            </div>
     </div>
-        </tbody>
-        </table>
-    </div>
+    
     <footer>
         <p>© 2026 LNF by C.J.C. All rights reserved.</p>
     </footer>

@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const radioButtons = document.querySelectorAll('input[name="property_status"]');
-    const sale_dashboard = document.getElementById('sale-dashboard');
-    const rent_dashboard = document.getElementById('rent-dashboard');
+    const radioButtons = document.querySelectorAll('input[name="report_status"]');
+    const missing_dashboard = document.getElementById('missing-dashboard');
+    const found_dashboard = document.getElementById('found-dashboard');
+    const search_results = document.getElementById('search-results');
 
     function updateActiveLabel() {
         radioButtons.forEach(radio => {
@@ -13,23 +14,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function changeInfo() {
-        const checkedRadio = document.querySelector('input[name="property_status"]:checked');
+        const checkedRadio = document.querySelector('input[name="report_status"]:checked');
         if (checkedRadio) {
-            if (checkedRadio.value === 'rent') {
-                rent_dashboard.style.display = 'block';
-                sale_dashboard.style.display = 'none';
-            } else if (checkedRadio.value === 'sale') {
-                rent_dashboard.style.display = 'none';
-                sale_dashboard.style.display = 'block';
+            if (checkedRadio.value === 'missing') {
+                missing_dashboard.style.display = 'block';
+                search_results.style.display = 'none';
+                found_dashboard.style.display = 'none';
+            } else if (checkedRadio.value === 'found') {
+                missing_dashboard.style.display = 'none';
+                found_dashboard.style.display = 'block';
+                search_results.style.display = 'none';
             }
         } else {
-            rent_dashboard.style.display = 'none';
-            sale_dashboard.style.display = 'none';
+            missing_dashboard.style.display = 'none';
+            found_dashboard.style.display = 'none';
         }
         updateActiveLabel();
+        
     }
 
-    // initialize
     changeInfo();
 
     radioButtons.forEach(radio => {
@@ -37,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const label = radio.closest('.status-option');
         if (label) label.addEventListener('click', () => setTimeout(changeInfo, 10));
     });
-
     // Filter UI and functionality
     const filterBtn = document.querySelector('.filter-btn');
     const filterGroup = document.querySelector('.filter-group');
@@ -45,10 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const sortOrder = document.getElementById('sort_order');
 
     function getVisibleTable() {
-        const saleTable = sale_dashboard.querySelector('table');
-        const rentTable = rent_dashboard.querySelector('table');
-        if (sale_dashboard.style.display !== 'none' && saleTable) return saleTable;
-        if (rent_dashboard.style.display !== 'none' && rentTable) return rentTable;
+        const missingTable = missing_dashboard.querySelector('table');
+        const foundTable = found_dashboard.querySelector('table');
+        if (missing_dashboard.style.display !== 'none' && missingTable) return missingTable;
+        if (found_dashboard.style.display !== 'none' && foundTable) return foundTable;
         // fallback: if any table exists in DOM, return the first
         return document.querySelector('#sale-dashboard table, #rent-dashboard table');
     }

@@ -20,32 +20,51 @@ class SearchResults extends Database{
         $row_num = count($results);
         try{
         if ($row_num > 0){?>
-        <table>
+        <div class = "missing-dashboard" id = "missing-dashboard">
+        <div class = "dashboard-container">
+        
+            <table>
             <thead>
             <tr>
                 <th>Item ID</th>
                 <th>Item Type</th>
-                <th>Item Brand</th> 
+                <th>Item Brand</th>
+                <th>Item Color</th>
+                <th>Item Image </th>
                 <th>Report Type</th>
-            </thead>
-
+                <th>Actions</th>
             </tr>
+            </thead>
             <tbody>
-            <?php foreach ($results as $search_row): ?>
-                
-                        
-                                <tr>
-                                <td><?= $search_row->id ?></td>
-                                <td><?= $search_row->item_type?></td>
-                                <td><?= $search_row->item_brand ?></td>
-                                <td><?= $search_row->report_type ?></td>
-
-                                <td><button> Inquire </button>
-                                <button> Contact </button>
-                                </tr>
+                <?php if ($results && count($results) > 0): ?>
+                <?php foreach ($results as $row): ?>            
+                <tr>
+                    <td><?= htmlspecialchars($row->id) ?></td>
+                    <td><?= htmlspecialchars($row->item_type) ?></td>
+                    <td><?= htmlspecialchars($row->item_brand) ?></td>
+                    <td><?= htmlspecialchars($row->item_color) ?></td>
+                    <td><?= htmlspecialchars($row->item_image) ?></td>
+                    <td><?= htmlspecialchars($row->report_type) ?></td>
+                    <td><button type="button" class="action-btn contact-btn">Contact</button>
+                    <button type="button" class="action-btn contact-btn">File a missing report</button></td>
+    
+                    
+                </tr>
+                    
+                </tr>
                 <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 20px; color: #666;">
+                            <strong>No properties are currently available.</strong><br>
+                            Please try refreshing the page or check back later.
+                        </td>
+                    </tr>
+                <?php endif; ?>
                 </tbody>
-            </table>
+                </table>
+        </div>
+    </div>
 
 
 <?php 
