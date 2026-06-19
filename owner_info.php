@@ -48,7 +48,7 @@
                 <div class="field-group">
                     <label for="contact_number">Contact Number</label>
                     <div class="field-row">
-                        <input type="tel" name="contactnumber" id="contact_number" placeholder="Contact Number" maxlength="11">
+                        <input type="tel" name="contactnumber" id="contact_number" placeholder="Contact Number" minlength = "11" maxlength="11">
                     </div>
                 </div>
                 <div class="field-group">

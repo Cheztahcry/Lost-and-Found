@@ -5,23 +5,12 @@
         private array $info_list;
         public function __construct() {
         parent::__construct();
-        $this->info_list = [
-       'id' => 'INT AUTO_INCREMENT PRIMARY KEY',
-       'lname' => 'VARCHAR(50) NOT NULL',
-       'fname' => 'VARCHAR(50) NOT NULL',
-       'age' => 'INT NOT NULL',
-       'gender' => 'VARCHAR(20) NOT NULL',
-       'email' => 'VARCHAR(50) NOT NULL UNIQUE',
-       'password_hash' => 'VARCHAR(255) NOT NULL '
-        ];
     }
-        public function owner_table(){
-            
-            $this->create_table($this->tbl_name, $this->info_list);
+        public function generate_table($tb_name, array $create_info){
+            $this->create_table($tb_name, $create_info);
         }
-        public function insert_owner_info(array $info_list){
-            
-            $this->insert_table($this->tbl_name, $info_list);
+        private function insert_owner_info(array $insert_info){
+            $this->insert_table($this->tbl_name, $insert_info);
         }
         public function show_ownerinfo($id) {
             $sql = "SELECT * FROM `{$this->tbl_name}` WHERE id = ?";
@@ -31,58 +20,137 @@
             return $user;
         }
 
+        public function update_owner(int $id, array $updates){
+            if (empty($updates)) return false;
+            $sets = [];
+            $params = [];
+            foreach ($updates as $col => $val) {
+                $sets[] = "`$col` = :$col";
+                $params[":$col"] = $val;
+            }
+            $params[':id'] = $id;
+            $sql = "UPDATE `{$this->tbl_name}` SET " . implode(', ', $sets) . " WHERE `id` = :id";
+            $stmt = $this->pdo->prepare($sql);
+            return $stmt->execute($params);
+        }
+        public function duplicate_email_real_time($email){
+            $sql = "SELECT * FROM `{$this->tbl_name}` WHERE  email = :email" ;
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([
+                'email' => $email]);
+            $results = $stmt->fetchColumn();
+            if ($results > 0){
+                echo "Email is already registered";
+            }
+       }
+       public function duplicate_email_submit($email, array $insert_info){
+            $sql = "SELECT * FROM `{$this->tbl_name}` WHERE  email = :email" ;
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([
+                'email' => $email]);
+            $results = $stmt->fetchColumn();
+            if ($results > 0){
+                echo "Email is already registered";
+            }
+            else{
+                $this->insert_owner_info($insert_info);
+                echo("Submit Successful");
+                header("Location: index.php");
+                exit;
+            }
+       }
+       public function generate_user_id() {
+            // Generate 16 bytes of random data
+            $data = random_bytes(16);
+
+            // Set version to 0100 (version 4)
+            $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+            // Set bits 6-7 to 10
+            $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+
+            // Format the string into the standard 8-4-4-4-12 UUID layout
+            return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+        }
+
     }
+    
     $lname = trim(($_POST['lname'] ?? null));
     $fname = trim(($_POST['fname'] ?? null));
     $gender = trim(($_POST['gender'] ?? null));
     $age = trim(($_POST['age'] ?? null));
+    $contactnumber = trim(($_POST['contactnumber'] ?? null));
     $email = trim(($_POST['email'] ?? null));
     $password = trim(($_POST['password'] ?? null));
     $confirm_password = trim(($_POST['confirm_password'] ?? null));
     $required_pass = 8;
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
-    $insert_info = [ 
+    $owner = new OwnerInfo();
+    $user_id = $owner->generate_user_id();
+    
+    $expected_fields = [
+    'fname'            => 'First name is required.',
+    'lname'            => 'Last name is required.',
+    'age'              => 'Age is required.',
+    'gender'           => 'Gender is required.',
+    'contactnumber'   => 'Contact Number is required.',
+    'email'            => 'Email is required.',
+    'password'         => 'Password is required.',
+    'confirm_password' => 'Please confirm your password.'
+    ];
+    $user_info = [
+       'id' => 'INT AUTO_INCREMENT PRIMARY KEY',
+       'user_uid' => 'VARCHAR (255) NOT NULL',
+       'lname' => 'VARCHAR(50) NOT NULL',
+       'fname' => 'VARCHAR(50) NOT NULL',
+       'age' => 'INT NOT NULL',
+       'contactnumber' => 'INT NOT NULL',
+       'gender' => 'VARCHAR(20) NOT NULL',
+       'email' => 'VARCHAR(50) NOT NULL UNIQUE',
+        'password_hash' => 'VARCHAR(255) NOT NULL ',
+        'picture' => 'VARCHAR(255) NULL',
+        ];
+    $token_info = [
+       'id' => 'INT AUTO_INCREMENT PRIMARY KEY',
+       'user_id' => 'INT NOT NULL',
+       'token_hash' => 'VARCHAR(255) NOT NULL',
+       'expiry' => 'DATETIME NOT NULL',
+       'FOREIGN KEY'   => '(user_id) REFERENCES tbl_ownerinfo(id) ON DELETE CASCADE'
+        ];
+    $errors = [];
+    foreach ($expected_fields as $field => $errorMessage) {
+    $value = trim($_POST[$field] ?? '');
+    
+    if ($value === '') {
+        $errors[$field] = $errorMessage;
+    } else {
+        $data_to_submit[$field] = $value;
+    }
+    }
+    
+    if (!isset($errors['password']) && !isset($errors['confirm_password'])) {
+    if ($data_to_submit['password'] !== $data_to_submit['confirm_password']) {
+        $errors['password_match'] = "Your passwords do not match!";
+    }
+    }
+
+    
+
+    if (empty($errors)) {
+        $insert_info = [ 
                 "fname" => $fname,
                 "lname" => $lname,
                 "age" => $age,
                 "gender" => $gender,
                 "email" => $email,
-                "password_hash" => $password_hash
-                  ];
-    $errors = [];
-    
-    // Check for empty fields; If their is empty field add it to the error list
-    /*foreach ($insert_info as $info => $errorMessage) {
-    if (empty(trim($_POST[$info] ?? ''))) {
-        $errors[$info] = $errorMessage;
-        
-    }
-    }*/
-    if(!isset($_SESSION["user_id"])){
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-        die("Email is invalid");
-    }
-    else if(strlen($password < $required_pass)){
-        die("Password must be at least 8 characters ");
-    }
-    else if(! preg_match("/[a-z]/i", $password)){
-        die("Password must contain atleast one letter");
-    }
-    else if(! preg_match("/[0-9]/", $password)){
-        die("Password must contain atleast one number");
-    }
-    else if($password !== $confirm_password){
-        die("Passwords must match");
-    }
-    else {
-        
-        $rent = new OwnerInfo();
-        $rent->owner_table();
-        $rent->insert_owner_info($insert_info);
-        echo "Submit Successful";
-        header("Refresh: 5; url=index.php");
-        exit;
-    }
+                "password_hash" => $password_hash,
+                "contactnumber" => $contactnumber,
+                "user_uid" => $user_id
+
+                  ];  
+        $owner = new OwnerInfo();
+        $owner->generate_table("tbl_ownerinfo", $user_info);
+        $owner->generate_table("tbl_usertoken", $token_info);
+        $owner->duplicate_email_submit($email, $insert_info);
     }
 
     

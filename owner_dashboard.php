@@ -1,6 +1,9 @@
 <?php
 session_start();
 $user = false;
+$item_row = null;
+$missing_item = null;
+$found_item = null;
 // Handle profile picture upload
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['owner_picture'])) {
     if (!isset($_SESSION['user_id'])) {
@@ -26,9 +29,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['owner_picture'])) {
 }
 
 if(isset($_SESSION["user_id"])){
-    include_once  'owner_info_class.php';
+    include_once __DIR__ . '/owner_info_class.php';
+    include_once __DIR__ . '/item_class.php';
     $owner = new OwnerInfo();
-    $user = $owner->show_ownerinfo($_SESSION["user_id"]);
+    $item = new ItemInfo();
+    try{
+        $user = $owner->show_ownerinfo($_SESSION["user_id"]);
+        $item_row = $item->show_item_info();
+    }catch (PDOException $e) {
+        echo "Can't find the user data";
+    } 
+    
 }
     
 
@@ -87,14 +98,15 @@ if(isset($_SESSION["user_id"])){
                         </label>
                     </div>
 
-                    <div class="button-row">
-                        <button type="button" id="edit" class="secondary-btn">Edit Information</button>
-                        <button type="button" id="save" class="primary-btn">Save Information</button>
-                    </div>
+                    
 
                     <?php if($user):?>
                     <div class="acct-panel" id="acct-info-content">
                         <div class="field-group">
+                            <div class="button-row">
+                                <button type="button" id="edit" class="secondary-btn">Edit Information</button>
+                                <button type="button" id="save" class="primary-btn">Save Information</button>
+                            </div>
                             <label>Full Name</label>
                             <div class="field-row">
                                 <input type="text" name="lname" placeholder="Last Name" required value="<?= htmlspecialchars($user->lname) ?>">
@@ -117,7 +129,7 @@ if(isset($_SESSION["user_id"])){
                         <div class="field-group">
                             <label for="contact_number">Contact Number</label>
                             <div class="field-row">
-                                <input type="tel" name="contactnumber" id="contact_number" placeholder="Contact Number" maxlength="11">
+                                <input type="tel" name="contactnumber" id="contact_number" placeholder="Contact Number" maxlength="11"value="<?= htmlspecialchars($user->contactnumber) ?>">
                             </div>
                         </div>
                         <div class="field-group">
@@ -138,19 +150,47 @@ if(isset($_SESSION["user_id"])){
                     <div class="acct-panel hidden" id="acct-tran-content">
                         <div class="transaction-summary">
                             <h2>Account Transactions</h2>
-                            <p class="transaction-note">Select a record to view transaction details or update your account activity.</p>
                         </div>
                         <div class="transaction-card">
                             <div class="transaction-card__header">
-                                <span>Recent Activity</span>
-                                <span class="transaction-status">No transactions yet</span>
+                                <span>Item ID</span>
+                                <span>Item Type</span>
+                                <span>Item Brand</span>
+                                <span>Item Color</span>
+                                <span>Item Image</span>
+                                <span>Item Date</span>
+                                <span>Report Type</span>
+                                <span>Actions</span>
                             </div>
-                            <div class="transaction-card__body">
-                                <p class="transaction-card__message">Your account is active, and all updates will appear here once available.</p>
-                            </div>
+                            <?php if ((($item_row && count($item_row) > 0))): ?>
+                                    <?php foreach ($item_row as $item): ?>
+                                        <div class="transaction-card__row">
+                                            <span class="transaction-card__value"><?= htmlspecialchars($item->id) ?></span>
+                                            <span class="transaction-card__value"><?= htmlspecialchars($item->item_type) ?></span>
+                                            <span class="transaction-card__value"><?= htmlspecialchars($item->item_brand) ?></span>
+                                            <span class="transaction-card__value"><?= htmlspecialchars($item->item_color) ?></span>
+                                            <span class="transaction-card__value"><?= htmlspecialchars($item->item_image) ?></span>
+                                            <span class="transaction-card__value"><?= htmlspecialchars($item->item_date) ?></span>
+                                            <span class="transaction-card__value"><?= htmlspecialchars($item->report_type) ?></span>
+                                            <span class="transaction-card__actions">
+                                                <div class="filter-control">
+                                                    <label class="visually-hidden" for="sort_order">Sort order</label>
+                                                    <select name="sort_order" id="sort_order" class="filter-select">
+                                                        <option value="asc">In Progress</option>
+                                                        <option value="desc">Solved</option>
+                                                    </select>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    <?php endforeach; ?>
+                                
+                            <?php else: ?>
+                                <div class="transaction-card__body">
+                                    <p class="transaction-card__message">Your account is active, and all updates will appear here once available.</p>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
-                </div>
                 
 
 

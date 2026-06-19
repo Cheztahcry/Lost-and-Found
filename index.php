@@ -1,5 +1,11 @@
 <?php
 session_start();
+if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_token'])) {
+    require_once __DIR__ . '/login_class.php';
+    $cookie_token = $_COOKIE['remember_token'];
+    $account = new AccountInfo();
+    $account->fetch_token();
+}
 $item_table = true;
 $item_rows = null;
 $missing_row = null;
