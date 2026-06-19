@@ -2,21 +2,27 @@
 session_start();
 $item_table = true;
 $item_rows = null;
-if ($item_table == true){
-    include_once __DIR__ . '/item_class.php';
-    if (class_exists('ItemInfo')){
-    $item = new ItemInfo();
-    $item_rows = $item->show_item_info();
-    }
-}
+$missing_row = null;
+$found_row = null;
 $user = false;
-if(isset($_SESSION["user_id"])){
+try {
+    if(isset($_SESSION["user_id"])){
     include_once  'owner_info_class.php';
+    include_once __DIR__ . '/item_class.php';
     $owner = new OwnerInfo();
     $user = $owner->show_ownerinfo($_SESSION["user_id"]);
+    if (class_exists('ItemInfo')){
+        $item = new ItemInfo();
+        $item_rows = $item->show_item_info();
+        $missing_row = $item->specific_type("Missing");
+        $found_row = $item->specific_type("Found");
+    }
     
 
 
+}
+}catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
 }
 ?>
 <!DOCTYPE html>
@@ -101,41 +107,48 @@ if(isset($_SESSION["user_id"])){
     <div id = "search-results">
         
     </div>
-    <div class = "dashboard-container">
+    <div class = "missing-dashboard" id = "missing-dashboard">
+        <div class = "dashboard-container">
         
-        <table>
-        <thead>
-        <tr>
-            <th>Item ID</th>
-            <th>Item Type</th>
-            <th>Item Brand</th>
-            <th>Item Color</th>
-            <th>Report Type</th>
-
-    </tr>
-    <tbody>
-        <?php if ($item_rows && count($item_rows) > 0): ?>
-                <?php foreach ($item_rows as $row): ?>             
+            <table>
+            <thead>
+            <tr>
+                <th>Item ID</th>
+                <th>Item Type</th>
+                <th>Item Brand</th>
+                <th>Item Color</th>
+                <th>Item Image </th>
+                <th>Report Type</th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php if ($missing_row && count($missing_row) > 0): ?>
+                <?php foreach ($missing_row as $row): ?>            
                 <tr>
-                    <td><?= $row->id ?></td>
-                    <td><?= $row->item_type ?></td>
-                    <td><?= $row->item_brand ?></td>
-                    <td><?= $row->item_color ?></td>
-                    <td><?= $row->report_type ?></td>
-                    <td class="action-cell">
-                        <button type="button" class="action-btn inquire-btn">Inquire</button>
+                    <td><?= htmlspecialchars($row->id) ?></td>
+                    <td><?= htmlspecialchars($row->item_type) ?></td>
+                    <td><?= htmlspecialchars($row->item_brand) ?></td>
+                    <td><?= htmlspecialchars($row->item_color) ?></td>
+                    <td><?= htmlspecialchars($row->item_image) ?></td>
+                    <td><?= htmlspecialchars($row->report_type) ?></td>
+                </tr>
                         <button type="button" class="action-btn contact-btn">Contact</button>
                     </td>
                 </tr>
                 <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="5" style="text-align: center; padding: 20px; color: #666;">
+                        <td colspan="6" style="text-align: center; padding: 20px; color: #666;">
                             <strong>No properties are currently available.</strong><br>
                             Please try refreshing the page or check back later.
                         </td>
                     </tr>
                 <?php endif; ?>
+                </tbody>
+                </table>
+        </div>
+        
+    </div>
         </tbody>
         </table>
     </div>

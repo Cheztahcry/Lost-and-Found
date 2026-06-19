@@ -17,8 +17,11 @@
         public function show_item_info(){
             return $this->show_table($this->tbl_name);
         }
-        public function specific_type($status){
-            $query = "SELECT * FROM `{$this->tbl_name}` WHERE ";
+        public function specific_type(string $report){
+            $query = "SELECT * FROM `{$this->tbl_name}` WHERE report_type = :report_type";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute(['report_type' => $report]);
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
         }
 
     }
